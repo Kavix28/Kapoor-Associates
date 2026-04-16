@@ -36,7 +36,7 @@ public class AnalyticsService {
                 .collect(Collectors.groupingBy(c -> c.getCaseType() != null ? c.getCaseType() : "General", Collectors.counting()));
         
         List<Map<String, Object>> casesByTypeList = byType.entrySet().stream()
-                .map(e -> Map.of("type", e.getKey(), "count", e.getValue()))
+                .map(e -> Map.<String, Object>of("type", e.getKey(), "count", e.getValue()))
                 .collect(Collectors.toList());
         stats.put("casesByType", casesByTypeList);
 
@@ -106,7 +106,7 @@ public class AnalyticsService {
         // sessions per day last 30 days
         List<Map<String, Object>> sessionsPerDay = new ArrayList<>();
         for (int i = 29; i >= 0; i--) {
-            sessionsPerDay.add(Map.of("date", LocalDate.now().minusDays(i).toString(), "count", (int)(Math.random() * 20) + 5));
+            sessionsPerDay.add(Map.<String, Object>of("date", LocalDate.now().minusDays(i).toString(), "count", (int)(Math.random() * 20) + 5));
         }
         stats.put("sessionsPerDay", sessionsPerDay);
 
@@ -119,7 +119,7 @@ public class AnalyticsService {
         for (int i = months - 1; i >= 0; i--) {
             LocalDate d = now.minusMonths(i);
             String monthName = d.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
-            list.add(Map.of("month", monthName, "count", base + (int)(Math.random() * 10)));
+            list.add(Map.<String, Object>of("month", monthName, "count", base + (int)(Math.random() * 10)));
         }
         return list;
     }
@@ -133,7 +133,7 @@ public class AnalyticsService {
             double total = all.stream()
                 .filter(r -> r.getReceivedAt().getMonth() == d.getMonth() && r.getReceivedAt().getYear() == d.getYear())
                 .mapToDouble(Revenue::getAmount).sum();
-            list.add(Map.of("month", monthName, "total", total));
+            list.add(Map.<String, Object>of("month", monthName, "total", total));
         }
         return list;
     }
