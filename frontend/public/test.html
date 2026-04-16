@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Kapoor & Associates</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a1a; color: #fff; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #2d5a2d; }
+        .error { background: #5a2d2d; }
+        .loading { background: #2d4a5a; }
+        button { padding: 10px 20px; margin: 5px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #357abd; }
+        pre { background: #333; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Kapoor & Associates - API Test Page</h1>
+    <p>This page tests the communication between frontend and backend.</p>
+    
+    <div>
+        <button onclick="testContactInfo()">Test Contact Info</button>
+        <button onclick="testAvailableSlots()">Test Available Slots</button>
+        <button onclick="testChatbot()">Test Chatbot</button>
+        <button onclick="testAll()">Test All</button>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://localhost:5001/api';
+        
+        function addResult(test, status, message, data = null) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${status}`;
+            div.innerHTML = `
+                <h3>${test}</h3>
+                <p><strong>Status:</strong> ${status.toUpperCase()}</p>
+                <p><strong>Message:</strong> ${message}</p>
+                ${data ? `<pre>${JSON.stringify(data, null, 2)}</pre>` : ''}
+            `;
+            results.appendChild(div);
+        }
+        
+        async function testContactInfo() {
+            addResult('Contact Info', 'loading', 'Testing...');
+            try {
+                const response = await fetch(`${API_BASE}/contact/info`);
+                const data = await response.json();
+                if (data.success) {
+                    addResult('Contact Info', 'success', 'Contact info loaded successfully', {
+                        firmName: data.data.firm.name,
+                        advocatesCount: data.data.advocates.length,
+                        officesCount: data.data.offices.length
+                    });
+                } else {
+                    addResult('Contact Info', 'error', 'Failed to load contact info', data);
+                }
+            } catch (error) {
+                addResult('Contact Info', 'error', error.message);
+            }
+        }
+        
+        async function testAvailableSlots() {
+            addResult('Available Slots', 'loading', 'Testing...');
+            try {
+                const response = await fetch(`${API_BASE}/consultation/available-slots`);
+                const data = await response.json();
+                if (data.success) {
+                    const dates = Object.keys(data.data.availableSlots);
+                    addResult('Available Slots', 'success', 'Available slots loaded successfully', {
+                        totalSlots: data.data.totalSlots,
+                        availableDates: dates.length,
+                        firstFewDates: dates.slice(0, 3)
+                    });
+                } else {
+                    addResult('Available Slots', 'error', 'Failed to load available slots', data);
+                }
+            } catch (error) {
+                addResult('Available Slots', 'error', error.message);
+            }
+        }
+        
+        async function testChatbot() {
+            addResult('Chatbot', 'loading', 'Testing...');
+            try {
+                const response = await fetch(`${API_BASE}/chatbot/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Hello, who are the advocates?'
+                    })
+                });
+                const data = await response.json();
+                if (data.message) {
+                    addResult('Chatbot', 'success', 'Chatbot responded successfully', {
+                        intent: data.intent,
+                        messagePreview: data.message.substring(0, 100) + '...',
+                        remainingAdviceCount: data.remainingAdviceCount
+                    });
+                } else {
+                    addResult('Chatbot', 'error', 'Chatbot failed to respond', data);
+                }
+            } catch (error) {
+                addResult('Chatbot', 'error', error.message);
+            }
+        }
+        
+        async function testAll() {
+            document.getElementById('results').innerHTML = '';
+            await testContactInfo();
+            await testAvailableSlots();
+            await testChatbot();
+        }
+        
+        // Auto-run tests on page load
+        window.onload = () => {
+            setTimeout(testAll, 1000);
+        };
+    </script>
+</body>
+</html>

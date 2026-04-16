@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Kapoor & Associates | Legal Consultation</title>
+    <meta name="description" content="Contact Kapoor & Associates for legal consultation. Schedule a confidential meeting with Advocate Anuj Kapoor for expert legal advice and representation.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2><a href="index.html" style="text-decoration: none; color: inherit;">KAPOOR & ASSOCIATES</a></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="practice-areas.html" class="nav-link">Practice Areas</a></li>
+                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                    <li><a href="#consultation" class="nav-link cta-nav">Consultation</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contact Hero -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="contact-hero-content">
+                <h1>Contact Us</h1>
+                <p class="hero-subtitle">Get Expert Legal Counsel for Your Matters</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="contact-info">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-details">
+                    <h2>Get in Touch</h2>
+                    <p>
+                        We are here to provide you with professional legal assistance. 
+                        Contact us to schedule a confidential consultation and discuss your legal needs.
+                    </p>
+                    
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Office Address</h4>
+                                <p>
+                                    [Office Address Line 1]<br>
+                                    [Office Address Line 2]<br>
+                                    [City, State - PIN Code]
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Phone Number</h4>
+                                <p>+91 [Phone Number]</p>
+                                <p class="contact-note">Available during office hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Email Address</h4>
+                                <p>info@kapoorassociates.com</p>
+                                <p class="contact-note">We respond within 24 hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Office Hours</h4>
+                                <p>
+                                    Monday - Friday: 9:00 AM - 6:00 PM<br>
+                                    Saturday: 9:00 AM - 2:00 PM<br>
+                                    Sunday: Closed
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Consultation Form -->
+                <div id="consultation" class="consultation-form">
+                    <div class="form-header">
+                        <h3>Schedule a Consultation</h3>
+                        <p class="confidentiality-note">
+                            <i class="fas fa-shield-alt"></i>
+                            All consultations are strictly confidential
+                        </p>
+                    </div>
+                    
+                    <form class="contact-form" id="consultationForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="legalArea">Legal Area of Concern</label>
+                            <select id="legalArea" name="legalArea">
+                                <option value="">Select Practice Area</option>
+                                <option value="civil">Civil Law</option>
+                                <option value="criminal">Criminal Law</option>
+                                <option value="corporate">Corporate & Business Law</option>
+                                <option value="family">Family Law</option>
+                                <option value="property">Property & Real Estate Law</option>
+                                <option value="contracts">Contract Drafting & Advisory</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="urgency">Urgency Level</label>
+                            <select id="urgency" name="urgency">
+                                <option value="normal">Normal</option>
+                                <option value="urgent">Urgent</option>
+                                <option value="emergency">Emergency</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="legalIssue">Brief Description of Legal Issue *</label>
+                            <textarea id="legalIssue" name="legalIssue" rows="5" 
+                                placeholder="Please provide a brief overview of your legal matter. This information will help us prepare for your consultation." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="preferredDate">Preferred Consultation Date</label>
+                            <input type="date" id="preferredDate" name="preferredDate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="preferredTime">Preferred Time</label>
+                            <select id="preferredTime" name="preferredTime">
+                                <option value="">Select Time</option>
+                                <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
+                                <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
+                                <option value="evening">Evening (4:00 PM - 6:00 PM)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="consent" name="consent" required>
+                                <span class="checkmark"></span>
+                                I consent to the collection and processing of my personal information for the purpose of legal consultation and communication.
+                            </label>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="disclaimer" name="disclaimer" required>
+                                <span class="checkmark"></span>
+                                I understand that this form does not create an attorney-client relationship and that confidentiality is not established until a formal consultation agreement is signed.
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary form-submit">
+                            <i class="fas fa-calendar-check"></i>
+                            Schedule Consultation
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2>Our Location</h2>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <p>Interactive Map</p>
+                    <p class="map-note">Google Maps integration would be embedded here</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Notes -->
+    <section class="important-notes">
+        <div class="container">
+            <div class="notes-grid">
+                <div class="note-card">
+                    <div class="note-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+                    <h4>Confidentiality Assured</h4>
+                    <p>All communications and consultations are protected by attorney-client privilege and strict confidentiality protocols.</p>
+                </div>
+                
+                <div class="note-card">
+                    <div class="note-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Prompt Response</h4>
+                    <p>We respond to all consultation requests within 24 hours and emergency matters are given immediate attention.</p>
+                </div>
+                
+                <div class="note-card">
+                    <div class="note-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>No Obligation Consultation</h4>
+                    <p>Initial consultations are designed to understand your needs with no obligation to retain our services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>KAPOOR & ASSOCIATES</h3>
+                    <p>Professional Legal Services</p>
+                    <p>Advocate Anuj Kapoor - Founder & Principal Advocate</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="practice-areas.html">Practice Areas</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Information</h4>
+                    <p><i class="fas fa-envelope"></i> info@kapoorassociates.com</p>
+                    <p><i class="fas fa-phone"></i> +91 [Phone Number]</p>
+                    <p><i class="fas fa-map-marker-alt"></i> [Office Address]</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="disclaimer">
+                    <p><strong>Legal Disclaimer:</strong> This website is for informational purposes only and does not constitute legal advice. 
+                    The information provided should not be construed as creating an attorney-client relationship. 
+                    Please consult with a qualified legal professional for advice specific to your situation.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-use.html">Terms of Use</a>
+                </div>
+                <p>&copy; 2024 Kapoor & Associates. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: legal-platform
+  datasource:
+    url: ${DATABASE_URL:jdbc:sqlite:./legalplatform.db}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
+    driver-class-name: ${DB_DRIVER:org.sqlite.JDBC}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: ${DB_DIALECT:org.hibernate.community.dialect.SQLiteDialect}
+    show-sql: false
+    servlet:
+      multipart:
+        enabled: true
+        max-file-size: 10MB
+        max-request-size: 10MB
+    properties:
+      hibernate:
+        format_sql: true
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:your-super-secret-jwt-key-change-this-in-production}
+  expiration: 86400000 # 24 hours
+
+# Email Configuration
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${EMAIL_USER:kapoorandassociatesadv@gmail.com}
+  password: ${EMAIL_PASS:your-gmail-app-password}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+
+# Google Calendar API Configuration
+google:
+  calendar:
+    id: ${GOOGLE_CALENDAR_ID:kapoorandassociatesadv@gmail.com}
+    service-account-email: ${GOOGLE_SERVICE_ACCOUNT_EMAIL}
+    service-account-key-path: ${GOOGLE_SERVICE_ACCOUNT_KEY_PATH:../backend/config/google-service-account.json}
+
+app:
+  upload-dir: ./uploads

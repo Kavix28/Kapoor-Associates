@@ -1,0 +1,130 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< com.kapoorassociates:legal-platform >-----------------
+[INFO] Building legal-platform 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ legal-platform ---
+[INFO] Deleting C:\PROJECTS\Kapoor and Associates\backend-java\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ legal-platform ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ legal-platform ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 20 source files with javac [debug release 17] to target\classes
+[INFO] -------------------------------------------------------------
+[WARNING] COMPILATION WARNING : 
+[INFO] -------------------------------------------------------------
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/Advocate.java:[41,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/Advocate.java:[44,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/Advocate.java:[47,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/Advocate.java:[50,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[32,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[35,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[38,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ContactQuery.java:[43,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ContactQuery.java:[49,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[32,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[41,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[44,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[47,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotConversation.java:[35,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotConversation.java:[41,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotSession.java:[26,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotSession.java:[29,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotSession.java:[32,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotSession.java:[38,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ChatbotSession.java:[41,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[70,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[76,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/dto/BookingRequest.java:[39,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[INFO] 23 warnings 
+[INFO] -------------------------------------------------------------
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[31,40] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[34,39] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[37,41] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[40,36] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[39,41] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[42,39] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[51,13] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[54,38] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[28,13] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[31,33] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ContactQuery.java:[36,13] cannot find symbol
+  symbol:   method defaultValue()
+  location: @interface jakarta.persistence.Column
+[INFO] 11 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.257 s
+[INFO] Finished at: 2026-04-07T15:29:18+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project legal-platform: Compilation failure: Compilation failure: 
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[31,40] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[34,39] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[37,41] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AvailableSlot.java:[40,36] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[39,41] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[42,39] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[51,13] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ConsultationBooking.java:[54,38] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[28,13] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/AdminUser.java:[31,33] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] /C:/PROJECTS/Kapoor and Associates/backend-java/src/main/java/com/kapoorassociates/legalplatform/model/ContactQuery.java:[36,13] cannot find symbol
+[ERROR]   symbol:   method defaultValue()
+[ERROR]   location: @interface jakarta.persistence.Column
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
