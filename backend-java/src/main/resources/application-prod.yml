@@ -7,9 +7,10 @@
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
 server:
-  port: 8080
+  port: ${PORT:8080}
 google:
   calendar:
     service-account-email: ${GOOGLE_SERVICE_ACCOUNT_EMAIL:not-configured}
