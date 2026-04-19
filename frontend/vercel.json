@@ -1,4 +1,5 @@
 {
   "buildCommand": "CI= npm run build",
-  "outputDirectory": "build"
+  "outputDirectory": "build",
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
