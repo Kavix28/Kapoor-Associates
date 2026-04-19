@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { 
   CurrencyRupeeIcon, BriefcaseIcon, UserGroupIcon, 
-  TrendingUpIcon, PlusIcon, TrashIcon 
+  ArrowTrendingUpIcon, PlusIcon, TrashIcon 
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 
@@ -131,7 +131,7 @@ const AdminAnalytics = () => {
         <StatCard 
           title="Monthly Growth" 
           value={`+${clientStats.newClientsThisMonth}`} 
-          icon={<TrendingUpIcon className="w-8 h-8 text-[#d4af37]" />}
+          icon={<ArrowTrendingUpIcon className="w-8 h-8 text-[#d4af37]" />}
           subtext="New clients this month"
         />
       </div>

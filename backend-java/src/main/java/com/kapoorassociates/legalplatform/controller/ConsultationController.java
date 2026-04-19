@@ -35,6 +35,14 @@ public class ConsultationController {
         
         List<AvailableSlot> slots = slotRepository.findAllByIsAvailableAndDateBetween(true, startDate, endDate);
         
+        // Filter by consultation type if not "both"
+        if (!"both".equalsIgnoreCase(consultationType)) {
+            slots = slots.stream()
+                    .filter(s -> "both".equalsIgnoreCase(s.getConsultationType()) || 
+                                 consultationType.equalsIgnoreCase(s.getConsultationType()))
+                    .collect(Collectors.toList());
+        }
+        
         // Group by date
         Map<String, List<Map<String, Object>>> slotsByDate = slots.stream()
                 .collect(Collectors.groupingBy(

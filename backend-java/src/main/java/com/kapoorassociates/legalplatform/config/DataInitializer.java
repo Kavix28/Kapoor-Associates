@@ -23,7 +23,8 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (slotRepository.count() < 10) {
+        LocalDate today = LocalDate.now();
+        if (slotRepository.findAllByIsAvailableAndDateBetween(true, today, today.plusDays(30)).size() < 10) {
             seedAvailableSlots();
         }
         if (clientRepository.count() == 0) {

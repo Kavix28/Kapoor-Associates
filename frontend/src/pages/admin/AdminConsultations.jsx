@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { adminService } from '../../services/api';
 import AdminLayout from '../../components/admin/AdminLayout';
-import { 
-  ChevronLeftIcon, 
+import {
+  ChevronLeftIcon,
   ChevronRightIcon,
   PhoneIcon,
   EnvelopeIcon,
   ChatBubbleBottomCenterTextIcon,
   FunnelIcon,
   CheckCircleIcon,
-  XCircleIcon
+  XCircleIcon,
+  CalendarDaysIcon
 } from '@heroicons/react/24/outline';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import toast from 'react-hot-toast';
@@ -216,7 +217,7 @@ const AdminConsultations = () => {
                 ))
               ) : (
                 <div className="bg-gray-50 border border-gray-100 rounded-2xl py-20 flex flex-col items-center justify-center text-gray-400 italic">
-                  <CalendarIcon className="h-12 w-12 mb-4 opacity-20" />
+                  <CalendarDaysIcon className="h-12 w-12 mb-4 opacity-20" />
                   <p className="font-bold">Clear queue for this date.</p>
                 </div>
               )}

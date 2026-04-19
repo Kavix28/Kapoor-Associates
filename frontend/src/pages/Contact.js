@@ -21,6 +21,7 @@ const Contact = () => {
   const [firmInfo, setFirmInfo] = useState(null);
   const [availableSlots, setAvailableSlots] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoadingSlots, setIsLoadingSlots] = useState(true);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [consultationType, setConsultationType] = useState('office');
@@ -100,7 +101,11 @@ const Contact = () => {
 
   // Fetch available slots when consultation type changes
   useEffect(() => {
+    setAvailableSlots({});
     const fetchAvailableSlots = async () => {
+      if (Object.keys(availableSlots).length === 0) {
+        setIsLoadingSlots(true);
+      }
       try {
         const response = await consultationService.getAvailableSlots({
           consultationType: consultationType
@@ -111,12 +116,12 @@ const Contact = () => {
         } else {
           console.error('Invalid slots response structure:', response.data);
           setAvailableSlots({});
-          toast.error('Failed to load available time slots');
         }
       } catch (error) {
         console.error('Failed to fetch available slots:', error);
         setAvailableSlots({});
-        toast.error('Failed to load available time slots');
+      } finally {
+        setIsLoadingSlots(false);
       }
     };
 
@@ -585,8 +590,17 @@ const Contact = () => {
                             </div>
                           </button>
                         ))
+                      ) : isLoadingSlots ? (
+                        <div className="text-center py-6">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gold-500 mx-auto mb-2"></div>
+                          <p className="text-gray-400 text-sm">Fetching available dates...</p>
+                        </div>
                       ) : (
-                        <p className="text-gray-400 text-center py-4">Loading available dates...</p>
+                        <div className="text-center py-8 bg-dark-900/50 rounded-lg border border-dashed border-dark-600">
+                          <ExclamationTriangleIcon className="h-8 w-8 text-amber-500/50 mx-auto mb-2" />
+                          <p className="text-gray-400 text-sm">No available slots found for this month.</p>
+                          <p className="text-gray-500 text-xs mt-1">Please try a different consultation mode.</p>
+                        </div>
                       )}
                     </div>
                   </div>

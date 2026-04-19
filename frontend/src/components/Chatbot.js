@@ -12,6 +12,8 @@ import {
   LanguageIcon
 } from '@heroicons/react/24/outline';
 import { useChatbot } from '../context/ChatbotContext';
+import toast from 'react-hot-toast';
+import { ShieldExclamationIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
 const Chatbot = () => {
@@ -20,7 +22,14 @@ const Chatbot = () => {
     resetSession,
     language,
     setLanguage,
-    sendFeedback
+    sendFeedback,
+    messages,
+    isOpen,
+    isLoading,
+    isLocked,
+    remainingAdviceCount,
+    openChatbot,
+    closeChatbot
   } = useChatbot();
 
   const [inputMessage, setInputMessage] = useState('');
@@ -189,7 +198,7 @@ const Chatbot = () => {
                             to="/client/login"
                             className="inline-flex items-center px-3 py-1 bg-primary-600 text-white text-xs font-medium rounded hover:bg-primary-700 transition-colors duration-200"
                           >
-                            <ShieldCheckIcon className="h-3 w-3 mr-1" />
+                            <ShieldExclamationIcon className="h-3 w-3 mr-1" />
                             {language === 'hi' ? 'लॉग इन करें' : 'Client Login'}
                           </Link>
                         )}
