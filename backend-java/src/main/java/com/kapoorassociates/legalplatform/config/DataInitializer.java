@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.kapoorassociates.legalplatform.model.AdminUser;
+import com.kapoorassociates.legalplatform.repository.AdminUserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Kapoor & Associates Legal Platform
@@ -28,6 +31,8 @@ public class DataInitializer implements CommandLineRunner {
     private final com.kapoorassociates.legalplatform.repository.ConsultationBookingRepository consultationBookingRepository;
     private final com.kapoorassociates.legalplatform.repository.RevenueRepository revenueRepository;
     private final com.kapoorassociates.legalplatform.repository.CaseInsightRepository caseInsightRepository;
+    private final AdminUserRepository adminUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -45,6 +50,20 @@ public class DataInitializer implements CommandLineRunner {
         if (revenueRepository.count() == 0) {
             seedRevenue();
         }
+        if (adminUserRepository.count() == 0) {
+            seedAdminUser();
+        }
+    }
+
+    private void seedAdminUser() {
+        AdminUser admin = AdminUser.builder()
+                .email("admin@kapoorassociates.com")
+                .passwordHash(passwordEncoder.encode("SecureAdminPassword123!"))
+                .role("admin")
+                .isActive(true)
+                .build();
+        adminUserRepository.save(admin);
+        log.info("DataInitializer: Seeded admin user: admin@kapoorassociates.com");
     }
 
     private void seedClientsAndRelatedData() {
