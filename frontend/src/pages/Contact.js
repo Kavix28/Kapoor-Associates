@@ -170,7 +170,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Clean phone number - remove spaces, hyphens, parentheses, and country code
+      // Clean phone number — remove spaces, hyphens, parentheses, and country code
       let cleanPhone = data.phone.replace(/[\s\-\(\)]/g, '');
       if (cleanPhone.startsWith('+91')) {
         cleanPhone = cleanPhone.substring(3);
@@ -192,18 +192,54 @@ const Contact = () => {
         sessionId
       };
 
-      setPendingBookingData(consultationData);
-      
-      // Trigger OTP
-      await otpService.sendOTP(cleanPhone, 'booking');
-      setIsOtpModalOpen(true);
+      // Attempt OTP (non-blocking — returns soft failure if n8n unavailable)
+      const otpResult = await otpService.sendOTP(cleanPhone, 'booking');
+
+      if (otpService.isAvailable() && otpResult.success && !otpResult.skipped) {
+        // n8n is live — show OTP modal for verification before booking
+        setPendingBookingData(consultationData);
+        setIsOtpModalOpen(true);
+      } else {
+        // n8n not configured or unreachable — proceed directly with booking
+        if (!otpResult.success) {
+          console.warn('[Contact] OTP unavailable, proceeding with direct booking.');
+        }
+        await completeBooking(consultationData);
+      }
 
     } catch (error) {
-      console.error('Initial consultation booking request error:', error);
-      toast.error('Failed to initiate booking. Please try again.');
+      console.error('Booking submission error:', error);
+      const msg = error.response?.data?.message || 'Failed to complete booking. Please try again.';
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  /**
+   * Shared booking completion logic — used both by OTP-verified flow and direct flow.
+   */
+  const completeBooking = async (bookingData) => {
+    await consultationService.book(bookingData);
+
+    toast.success(
+      'Consultation booked successfully! Our team will contact you to confirm your appointment.',
+      { duration: 6000 }
+    );
+    reset();
+    setSelectedDate('');
+    setSelectedTime('');
+    setSelectedSlotId(null);
+    setPendingBookingData(null);
+    setIsOtpModalOpen(false);
+
+    // Refresh available slots
+    try {
+      const slotsResponse = await consultationService.getAvailableSlots({ consultationType });
+      if (slotsResponse.data?.success && slotsResponse.data?.data?.availableSlots) {
+        setAvailableSlots(slotsResponse.data.data.availableSlots);
+      }
+    } catch (_) { /* non-critical */ }
   };
 
   const handleOtpVerified = async () => {
@@ -211,23 +247,7 @@ const Contact = () => {
 
     setIsSubmitting(true);
     try {
-      await consultationService.book(pendingBookingData);
-      
-      toast.success('Consultation booked successfully!');
-      reset();
-      setSelectedDate('');
-      setSelectedTime('');
-      setSelectedSlotId(null);
-      setPendingBookingData(null);
-      
-      // Refresh available slots
-      const slotsResponse = await consultationService.getAvailableSlots({
-        consultationType: consultationType
-      });
-      if (slotsResponse.data && slotsResponse.data.success && slotsResponse.data.data && slotsResponse.data.data.availableSlots) {
-        setAvailableSlots(slotsResponse.data.data.availableSlots);
-      }
-
+      await completeBooking(pendingBookingData);
     } catch (error) {
       console.error('Final consultation booking error:', error);
       const errorMessage = error.response?.data?.message || 'Failed to complete booking. Please try again.';
