@@ -3,13 +3,21 @@ package com.kapoorassociates.legalplatform.config;
 import com.kapoorassociates.legalplatform.model.AvailableSlot;
 import com.kapoorassociates.legalplatform.repository.AvailableSlotRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Kapoor & Associates Legal Platform
+ * Seeds initial data (slots, demo clients, revenue) on startup.
+ * Safe for both SQLite (dev) and PostgreSQL (prod) — handles unique constraint violations gracefully.
+ */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
@@ -24,8 +32,12 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         LocalDate today = LocalDate.now();
-        if (slotRepository.findAllByIsAvailableAndDateBetween(true, today, today.plusDays(30)).size() < 10) {
+        long futureSlots = slotRepository.findAllByIsAvailableAndDateBetween(true, today, today.plusDays(30)).size();
+        if (futureSlots < 10) {
+            log.info("DataInitializer: Found {} future slots, seeding new ones...", futureSlots);
             seedAvailableSlots();
+        } else {
+            log.info("DataInitializer: {} future slots found — skipping seed.", futureSlots);
         }
         if (clientRepository.count() == 0) {
             seedClientsAndRelatedData();
@@ -43,78 +55,72 @@ public class DataInitializer implements CommandLineRunner {
         };
 
         for (String[] cData : clientsData) {
-            com.kapoorassociates.legalplatform.model.Client client = clientRepository.save(com.kapoorassociates.legalplatform.model.Client.builder()
-                    .name(cData[0])
-                    .email(cData[1])
-                    .phone(cData[2])
-                    .companyName(cData[3])
+            com.kapoorassociates.legalplatform.model.Client client = clientRepository.save(
+                com.kapoorassociates.legalplatform.model.Client.builder()
+                    .name(cData[0]).email(cData[1]).phone(cData[2]).companyName(cData[3])
                     .createdAt(java.time.LocalDateTime.now().minusMonths(2))
-                    .build());
+                    .build()
+            );
 
             caseRecordRepository.save(com.kapoorassociates.legalplatform.model.CaseRecord.builder()
-                    .client(client)
-                    .caseNumber("KAP-CN-" + (1000 + new java.util.Random().nextInt(9000)))
-                    .title("Property Dispute - Sector " + (10 + new java.util.Random().nextInt(90)))
-                    .caseType("Civil")
-                    .status("IN_PROGRESS")
-                    .description("Legal proceedings regarding ancestral property.")
-                    .nextHearingDate(java.time.LocalDateTime.now().plusDays(15))
-                    .build());
+                .client(client)
+                .caseNumber("KAP-CN-" + (1000 + new java.util.Random().nextInt(9000)))
+                .title("Property Dispute - Sector " + (10 + new java.util.Random().nextInt(90)))
+                .caseType("Civil").status("IN_PROGRESS")
+                .description("Legal proceedings regarding ancestral property.")
+                .nextHearingDate(java.time.LocalDateTime.now().plusDays(15)).build());
 
             caseRecordRepository.save(com.kapoorassociates.legalplatform.model.CaseRecord.builder()
-                    .client(client)
-                    .caseNumber("KAP-CN-" + (1000 + new java.util.Random().nextInt(9000)))
-                    .title("Interim Recovery " + cData[0])
-                    .caseType("Commercial")
-                    .status("OPEN")
-                    .description("Recovery of outstanding dues.")
-                    .build());
+                .client(client)
+                .caseNumber("KAP-CN-" + (1000 + new java.util.Random().nextInt(9000)))
+                .title("Interim Recovery " + cData[0])
+                .caseType("Commercial").status("OPEN")
+                .description("Recovery of outstanding dues.").build());
 
             consultationBookingRepository.save(com.kapoorassociates.legalplatform.model.ConsultationBooking.builder()
-                    .name(client.getName())
-                    .email(client.getEmail())
-                    .phone(client.getPhone())
-                    .legalMatter("General legal inquiry about " + client.getCompanyName())
-                    .preferredDate(LocalDate.now().minusDays(10))
-                    .preferredTime(LocalTime.of(14, 0))
-                    .status("CONFIRMED")
-                    .build());
+                .name(client.getName()).email(client.getEmail()).phone(client.getPhone())
+                .legalMatter("General legal inquiry about " + client.getCompanyName())
+                .preferredDate(LocalDate.now().minusDays(10)).preferredTime(LocalTime.of(14, 0))
+                .status("CONFIRMED").build());
 
             consultationBookingRepository.save(com.kapoorassociates.legalplatform.model.ConsultationBooking.builder()
-                    .name(client.getName())
-                    .email(client.getEmail())
-                    .phone(client.getPhone())
-                    .legalMatter("Follow up on property matter")
-                    .preferredDate(LocalDate.now().plusDays(5))
-                    .preferredTime(LocalTime.of(11, 0))
-                    .status("PENDING")
-                    .build());
+                .name(client.getName()).email(client.getEmail()).phone(client.getPhone())
+                .legalMatter("Follow up on property matter")
+                .preferredDate(LocalDate.now().plusDays(5)).preferredTime(LocalTime.of(11, 0))
+                .status("PENDING").build());
         }
     }
 
     private void seedAvailableSlots() {
-        List<AvailableSlot> slots = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        
-        // Seed slots for the next 30 days
+        int seeded = 0;
+        int skipped = 0;
+
         for (int i = 0; i < 30; i++) {
             LocalDate date = today.plusDays(i);
-            
-            // Skip weekends
+
+            // Skip weekends (Saturday=6, Sunday=7)
             if (date.getDayOfWeek().getValue() >= 6) continue;
 
-            // Morning slots
-            slots.add(createSlot(date, LocalTime.of(11, 00), "tis_hazari"));
-            slots.add(createSlot(date, LocalTime.of(12, 00), "tis_hazari"));
-            
-            // Afternoon slots
-            slots.add(createSlot(date, LocalTime.of(14, 00), "preet_vihar"));
-            slots.add(createSlot(date, LocalTime.of(15, 00), "preet_vihar"));
-            slots.add(createSlot(date, LocalTime.of(16, 00), "preet_vihar"));
+            List<AvailableSlot> dailySlots = List.of(
+                createSlot(date, LocalTime.of(11, 0), "tis_hazari"),
+                createSlot(date, LocalTime.of(12, 0), "tis_hazari"),
+                createSlot(date, LocalTime.of(14, 0), "preet_vihar"),
+                createSlot(date, LocalTime.of(15, 0), "preet_vihar"),
+                createSlot(date, LocalTime.of(16, 0), "preet_vihar")
+            );
+
+            for (AvailableSlot slot : dailySlots) {
+                try {
+                    slotRepository.save(slot);
+                    seeded++;
+                } catch (DataIntegrityViolationException e) {
+                    // Slot already exists (unique constraint: date + time_slot + office_location) — skip safely
+                    skipped++;
+                }
+            }
         }
-        
-        slotRepository.saveAll(slots);
-        System.out.println("Seeded " + slots.size() + " available slots.");
+        log.info("DataInitializer: Seeded {} new slots, skipped {} existing.", seeded, skipped);
     }
 
     private void seedRevenue() {
@@ -135,7 +141,9 @@ public class DataInitializer implements CommandLineRunner {
         revenueRepository.saveAll(revenues);
     }
 
-    private com.kapoorassociates.legalplatform.model.Revenue createRevenue(java.util.UUID clientId, String desc, double amount, com.kapoorassociates.legalplatform.model.RevenueType type, LocalDate date) {
+    private com.kapoorassociates.legalplatform.model.Revenue createRevenue(
+            java.util.UUID clientId, String desc, double amount,
+            com.kapoorassociates.legalplatform.model.RevenueType type, LocalDate date) {
         com.kapoorassociates.legalplatform.model.Revenue r = new com.kapoorassociates.legalplatform.model.Revenue();
         r.setClientId(clientId);
         r.setDescription(desc);
@@ -147,12 +155,9 @@ public class DataInitializer implements CommandLineRunner {
 
     private AvailableSlot createSlot(LocalDate date, LocalTime time, String location) {
         return AvailableSlot.builder()
-                .date(date)
-                .timeSlot(time)
-                .durationMinutes(30)
-                .officeLocation(location)
-                .consultationType("both")
-                .isAvailable(true)
-                .build();
+            .date(date).timeSlot(time).durationMinutes(30)
+            .officeLocation(location).consultationType("both")
+            .isAvailable(true)
+            .build();
     }
 }
