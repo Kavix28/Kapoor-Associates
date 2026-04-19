@@ -57,11 +57,17 @@ const AdminLogin = () => {
         password: data.password,
       });
 
-      // If credentials are valid, credentials check succeeded (service will throw otherwise)
-      // Now trigger OTP
-      setPendingLoginData(data);
-      await otpService.sendOTP(data.email, 'login');
-      setIsOtpModalOpen(true);
+      // If credentials are valid, check if OTP service is available
+      const otpResult = await otpService.sendOTP(data.email, 'login');
+      
+      if (otpService.isAvailable() && otpResult.success && !otpResult.skipped) {
+        setPendingLoginData(data);
+        setIsOtpModalOpen(true);
+      } else {
+        // Skip OTP and login directly
+        console.warn('[AdminLogin] OTP unavailable, proceeding directly.');
+        await performFinalLogin(data);
+      }
       
     } catch (error) {
       console.error('Login initial check error:', error);
@@ -74,22 +80,26 @@ const AdminLogin = () => {
     }
   };
 
+  const performFinalLogin = async (loginData) => {
+    const response = await authService.login({
+      email: loginData.email,
+      password: loginData.password,
+    });
+
+    if (response.data && response.data.token) {
+      localStorage.setItem('adminToken', response.data.token);
+      toast.success('Login successful!');
+      const from = location.state?.from?.pathname || '/admin';
+      navigate(from, { replace: true });
+    }
+  };
+
   const handleOtpVerified = async () => {
     if (!pendingLoginData) return;
 
     setIsLoading(true);
     try {
-      const response = await authService.login({
-        email: pendingLoginData.email,
-        password: pendingLoginData.password,
-      });
-
-      if (response.data && response.data.token) {
-        localStorage.setItem('adminToken', response.data.token);
-        toast.success('Login verified and successful!');
-        const from = location.state?.from?.pathname || '/admin';
-        navigate(from, { replace: true });
-      }
+      await performFinalLogin(pendingLoginData);
     } catch (error) {
       toast.error('Session expired. Please login again.');
     } finally {
