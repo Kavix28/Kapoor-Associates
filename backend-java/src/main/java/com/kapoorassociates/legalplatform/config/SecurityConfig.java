@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/chatbot/**").permitAll()
                 .requestMatchers("/api/contact/**").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/auth/verify-otp").permitAll()
                 .requestMatchers("/api/admin/**").permitAll()
                 .requestMatchers("/api/client/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()

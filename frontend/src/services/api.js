@@ -87,6 +87,7 @@ api.interceptors.response.use(
 // API service methods
 export const authService = {
   login: (credentials) => api.post('/auth/login', credentials),
+  verifyOtp: (data) => api.post('/auth/verify-otp', data),
   verify: () => api.get('/auth/verify'),
   changePassword: (passwords) => api.post('/auth/change-password', passwords),
   logout: () => api.post('/auth/logout'),

@@ -50,20 +50,26 @@ public class DataInitializer implements CommandLineRunner {
         if (revenueRepository.count() == 0) {
             seedRevenue();
         }
-        if (adminUserRepository.count() == 0) {
+        if (adminUserRepository.count() == 0 || !adminUserRepository.existsByEmail("kavyakapoor28i@gmail.com")) {
             seedAdminUser();
         }
     }
 
     private void seedAdminUser() {
-        AdminUser admin = AdminUser.builder()
-                .email("admin@kapoorassociates.com")
-                .passwordHash(passwordEncoder.encode("SecureAdminPassword123!"))
-                .role("admin")
-                .isActive(true)
-                .build();
-        adminUserRepository.save(admin);
-        log.info("DataInitializer: Seeded admin user: admin@kapoorassociates.com");
+        // Delete old admin if exists
+        adminUserRepository.findByEmail("admin@kapoorassociates.com")
+            .ifPresent(adminUserRepository::delete);
+
+        if (!adminUserRepository.existsByEmail("kavyakapoor28i@gmail.com")) {
+            AdminUser admin = AdminUser.builder()
+                    .email("kavyakapoor28i@gmail.com")
+                    .passwordHash(passwordEncoder.encode("kAVYA@922829"))
+                    .role("SUPER_ADMIN")
+                    .isActive(true)
+                    .build();
+            adminUserRepository.save(admin);
+            log.info("✅ New admin user seeded: kavyakapoor28i@gmail.com");
+        }
     }
 
     private void seedClientsAndRelatedData() {
