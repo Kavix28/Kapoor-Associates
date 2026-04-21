@@ -57,14 +57,18 @@ const AdminLogin = () => {
 
     setIsLoading(true);
     try {
-      const res = await authService.login({ email, password });
+      const res = await authService.login({ email, password }, { timeout: 15000 });
       if (res.data.success && res.data.otpRequired) {
         setStep("otp");
-        toast.success("Credentials verified. Check your email for OTP.");
+        toast.success("OTP sent! Check your inbox at " + email);
       }
     } catch (err) {
-      const msg = err.response?.data?.message || err.response?.data?.error || "Invalid credentials";
-      toast.error(msg);
+      if (err.code === "ECONNABORTED") {
+        toast.error("Request timed out. Please try again.");
+      } else {
+        const msg = err.response?.data?.message || err.response?.data?.error || "Invalid credentials";
+        toast.error(msg);
+      }
     } finally {
       setIsLoading(false);
     }

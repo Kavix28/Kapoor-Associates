@@ -23,15 +23,17 @@ jwt:
   expiration: 86400000
 mail:
   host: smtp.gmail.com
-  port: 587
-  username: ${EMAIL_USER:kapoorandassociatesadv@gmail.com}
-  password: ${EMAIL_PASS:your-gmail-app-password}
+  port: 465
+  username: ${MAIL_USERNAME:kavyakapoor28i@gmail.com}
+  password: ${MAIL_PASSWORD:}
   properties:
     mail:
       smtp:
         auth: true
-        starttls:
+        ssl:
           enable: true
+        starttls:
+          enable: false
 google:
   calendar:
     id: ${GOOGLE_CALENDAR_ID:kapoorandassociatesadv@gmail.com}

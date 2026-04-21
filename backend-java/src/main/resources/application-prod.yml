@@ -11,16 +11,20 @@ spring:
     show-sql: true
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
           auth: true
-          starttls:
+          ssl:
             enable: true
-            required: true
+          starttls:
+            enable: false
+            required: false
+        transport:
+          protocol: smtp
         debug: false
 server:
   port: ${PORT:8080}

@@ -50,12 +50,13 @@ public class AuthController {
                 ));
             }
 
-            // Password correct — send OTP via email
+            // Fire OTP send asynchronously — don't wait for it
             otpService.generateAndSendOtp(request.getEmail());
 
+            // Respond immediately — don't block on SMTP
             return ResponseEntity.ok(Map.of(
                 "success", true,
-                "message", "OTP sent to your email. Please verify to complete login.",
+                "message", "OTP sent to your email. Please check your inbox.",
                 "otpRequired", true
             ));
 
