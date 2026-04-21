@@ -1,66 +1,92 @@
 package com.kapoorassociates.legalplatform.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import okhttp3.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Random;
 
 /**
  * Kapoor & Associates Legal Platform
- * Service for generating, sending, and verifying One-Time Passwords (OTP).
- * Now asynchronous to avoid blocking HTTP threads during SMTP timeouts.
+ * Service for OTP handling via n8n external webhooks.
+ * Replaces internal SMTP/JavaMailSender.
  */
 @Service
 public class OtpService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Value("${n8n.webhook.send-otp}")
+    private String sendOtpWebhook;
 
-    // In-memory OTP store (email -> otp) 
-    private final Map<String, String> otpStore = new ConcurrentHashMap<>();
+    @Value("${n8n.webhook.verify-otp}")
+    private String verifyOtpWebhook;
+
+    private final OkHttpClient httpClient = new OkHttpClient();
 
     @Async
-    public CompletableFuture<Boolean> generateAndSendOtp(String email) {
-        String otp = String.format("%06d", new Random().nextInt(999999));
-        otpStore.put(email, otp);
-
+    public CompletableFuture<Boolean> sendOtp(String email) {
         try {
-            // Send OTP via Gmail SMTP
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(email);
-            message.setSubject("Kapoor & Associates — Admin Login OTP");
-            message.setText(
-                "Dear Admin,\n\n" +
-                "Your One-Time Password (OTP) for admin login is:\n\n" +
-                "  " + otp + "\n\n" +
-                "This OTP is valid for 10 minutes.\n\n" +
-                "Regards,\nKapoor & Associates Security System"
+            String jsonBody = "{\"email\": \"" + email + "\"}";
+
+            RequestBody body = RequestBody.create(
+                jsonBody, MediaType.parse("application/json")
             );
-            message.setFrom("kavyakapoor28i@gmail.com");
 
-            mailSender.send(message);
-            System.out.println("✅ OTP sent to: " + email);
-            return CompletableFuture.completedFuture(true);
+            Request request = new Request.Builder()
+                .url(sendOtpWebhook)
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
 
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    System.out.println("✅ OTP send request sent to n8n for: " + email);
+                    return CompletableFuture.completedFuture(true);
+                } else {
+                    String responseBody = response.body() != null ?
+                        response.body().string() : "no body";
+                    System.err.println("❌ n8n send-otp error: " 
+                        + response.code() + " — " + responseBody);
+                    return CompletableFuture.completedFuture(false);
+                }
+            }
         } catch (Exception e) {
-            System.err.println("❌ OTP send failed: " + e.getMessage());
-            // Log FALLBACK OTP so admin can still log in if SMTP is blocked
-            System.err.println("🔑 FALLBACK OTP for " + email + ": " + otp);
+            System.err.println("❌ OTP send exception: " + e.getMessage());
             return CompletableFuture.completedFuture(false);
         }
     }
 
     public boolean verifyOtp(String email, String otp) {
-        String stored = otpStore.get(email);
-        if (stored != null && stored.equals(otp)) {
-            otpStore.remove(email); // One-time use
-            return true;
+        try {
+            String jsonBody = "{\"email\": \"" + email 
+                + "\", \"otp\": \"" + otp + "\"}";
+
+            RequestBody body = RequestBody.create(
+                jsonBody, MediaType.parse("application/json")
+            );
+
+            Request request = new Request.Builder()
+                .url(verifyOtpWebhook)
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
+
+            try (Response response = httpClient.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body() != null ?
+                        response.body().string() : "{}";
+                    System.out.println("✅ OTP verify response: " + responseBody);
+                    // n8n returns success:true if OTP is valid
+                    return responseBody.contains("\"success\":true") 
+                        || responseBody.contains("\"valid\":true")
+                        || responseBody.contains("\"status\":\"success\"");
+                } else {
+                    System.err.println("❌ n8n verify-otp error: " + response.code());
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("❌ OTP verify exception: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 }

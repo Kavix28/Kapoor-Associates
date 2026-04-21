@@ -57,10 +57,10 @@ const AdminLogin = () => {
 
     setIsLoading(true);
     try {
-      const res = await authService.login({ email, password }, { timeout: 15000 });
+      const res = await authService.login({ email, password }, { timeout: 10000 });
       if (res.data.success && res.data.otpRequired) {
         setStep("otp");
-        toast.success("OTP sent! Check your inbox at " + email);
+        toast.success("OTP sent to " + email + ". Check your inbox!");
       }
     } catch (err) {
       if (err.code === "ECONNABORTED") {
@@ -84,7 +84,7 @@ const AdminLogin = () => {
 
     setIsLoading(true);
     try {
-      const res = await authService.verifyOtp({ email, otp });
+      const res = await authService.verifyOtp({ email, otp }, { timeout: 10000 });
       if (res.data.success) {
         localStorage.setItem("adminToken", res.data.token);
         toast.success("Login successful!");

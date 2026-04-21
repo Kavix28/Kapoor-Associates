@@ -50,8 +50,8 @@ public class AuthController {
                 ));
             }
 
-            // Fire OTP send asynchronously — don't wait for it
-            otpService.generateAndSendOtp(request.getEmail());
+            // Fire OTP via n8n asynchronously
+            otpService.sendOtp(request.getEmail());
 
             // Respond immediately — don't block on SMTP
             return ResponseEntity.ok(Map.of(
@@ -77,7 +77,7 @@ public class AuthController {
             if (!valid) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                     "success", false,
-                    "message", "Invalid or expired OTP"
+                    "message", "Invalid or expired OTP. Please try again."
                 ));
             }
 

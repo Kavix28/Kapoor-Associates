@@ -21,19 +21,10 @@ spring:
 jwt:
   secret: ${JWT_SECRET:your-super-secret-jwt-key-change-this-in-production}
   expiration: 86400000
-mail:
-  host: smtp.gmail.com
-  port: 465
-  username: ${MAIL_USERNAME:kavyakapoor28i@gmail.com}
-  password: ${MAIL_PASSWORD:}
-  properties:
-    mail:
-      smtp:
-        auth: true
-        ssl:
-          enable: true
-        starttls:
-          enable: false
+n8n:
+  webhook:
+    send-otp: ${N8N_SEND_OTP_WEBHOOK:https://n8n-production-1a2d2.up.railway.app/webhook/send-otp}
+    verify-otp: ${N8N_VERIFY_OTP_WEBHOOK:https://n8n-production-1a2d2.up.railway.app/webhook/verify-otp}
 google:
   calendar:
     id: ${GOOGLE_CALENDAR_ID:kapoorandassociatesadv@gmail.com}

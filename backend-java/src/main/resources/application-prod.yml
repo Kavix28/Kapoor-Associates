@@ -9,23 +9,10 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-  mail:
-    host: smtp.gmail.com
-    port: 465
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          ssl:
-            enable: true
-          starttls:
-            enable: false
-            required: false
-        transport:
-          protocol: smtp
-        debug: false
+  n8n:
+    webhook:
+      send-otp: ${N8N_SEND_OTP_WEBHOOK}
+      verify-otp: ${N8N_VERIFY_OTP_WEBHOOK}
 server:
   port: ${PORT:8080}
 google:
